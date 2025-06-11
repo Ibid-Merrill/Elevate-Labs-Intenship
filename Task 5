@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Static Website</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Welcome to My Static Website</h1>
+  </header>
+  <main>
+    <p>This site is hosted on <strong>GitHub Pages</strong> for free.</p>
+    <button onclick="sayHello()">Click Me!</button>
+  </main>
+  <footer>
+    <p>Made with ❤️ using HTML, CSS, and JS</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 1em 0;
+}
+
+main {
+  padding: 2em;
+}
+
+footer {
+  margin-top: 2em;
+  background-color: #222;
+  color: #fff;
+  padding: 1em 0;
+}
