@@ -2,113 +2,150 @@ index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Contact Form</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Form Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, textarea {
+      padding: 8px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    input:focus, textarea:focus {
+      outline-color: #007acc;
+      border-color: #007acc;
+    }
+    .error {
+      color: #d93025;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+    .success-message {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px;
+      font-size: 1rem;
+      background-color: #007acc;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Contact Us</h2>
-        <form id="contactForm" novalidate>
-            <label for="name">Name:</label>
-            <input type="text" id="name" placeholder="Your name">
-            <small class="error" id="nameError"></small>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="you@example.com">
-            <small class="error" id="emailError"></small>
+  <h2>Contact Us</h2>
 
-            <label for="message">Message:</label>
-            <textarea id="message" rows="5" placeholder="Your message"></textarea>
-            <small class="error" id="messageError"></small>
-
-            <button type="submit">Submit</button>
-            <p id="successMessage" class="success"></p>
-        </form>
+  <form id="contactForm" novalidate>
+    <div>
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" />
+      <div class="error" id="nameError"></div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div>
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" />
+      <div class="error" id="emailError"></div>
+    </div>
 
-style.css
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    padding: 2em;
-    display: flex;
-    justify-content: center;
-}
+    <div>
+      <label for="message">Message *</label>
+      <textarea id="message" name="message" rows="5"></textarea>
+      <div class="error" id="messageError"></div>
+    </div>
 
-.form-container {
-    background: white;
-    padding: 2em;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+    <button type="submit">Send Message</button>
+  </form>
 
-label {
-    display: block;
-    margin-top: 1em;
-}
+  <div class="success-message" id="successMessage"></div>
 
-input, textarea {
-    width: 100%;
-    padding: 0.6em;
-    margin-top: 0.3em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+  <script>
+    const form = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
 
-button {
-    margin-top: 1.5em;
-    padding: 0.7em 1.2em;
-    background-color: #007acc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const messageError = document.getElementById('messageError');
+    const successMessage = document.getElementById('successMessage');
 
-.error {
-    color: red;
-    font-size: 0.8em;
-}
-
-.success {
-    margin-top: 1em;
-    color: green;
-    font-weight: bold;
-}
-
-script.js
-document.getElementById('contactForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Clear previous messages
-    document.getElementById('nameError').textContent = '';
-    document.getElementById('emailError').textContent = '';
-    document.getElementById('messageError').textContent = '';
-    document.getElementById('successMessage').textContent = '';
-
-    // Get values
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-
-    let valid = true;
-
-    // Validate Name
-    if (name === '') {
-        document.getElementById('nameError').textContent = 'Name is required.';
-        valid = false;
+    function validateEmail(email) {
+      // Simple regex for email validation
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
     }
 
-    // Validate Email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email === '') {
-        document.getElementById('emailError').textContent = 'Email is required.';
-        valid = false;
-    } else if (!emailPattern.test(email))
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Clear previous errors & success message
+      nameError.textContent = '';
+      emailError.textContent = '';
+      messageError.textContent = '';
+      successMessage.textContent = '';
+
+      let isValid = true;
+
+      // Validate name (non-empty)
+      if (nameInput.value.trim() === '') {
+        nameError.textContent = 'Name is required.';
+        isValid = false;
+      }
+
+      // Validate email (non-empty + regex)
+      if (emailInput.value.trim() === '') {
+        emailError.textContent = 'Email is required.';
+        isValid = false;
+      } else if (!validateEmail(emailInput.value.trim())) {
+        emailError.textContent = 'Please enter a valid email.';
+        isValid = false;
+      }
+
+      // Validate message (non-empty)
+      if (messageInput.value.trim() === '') {
+        messageError.textContent = 'Message is required.';
+        isValid = false;
+      }
+
+      if (isValid) {
+        // Show success message & reset form
+        successMessage.textContent = 'Thank you! Your message has been sent.';
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
